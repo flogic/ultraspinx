@@ -1,34 +1,3 @@
-= Search Wrapper
-<b>Version 0.0.1 (Nov 25, 2007)</b>
-
-Author::	Rick Bradley (mailto:rick@ogconsultin.gs)
-
-The Search Wrapper provides a wrapper around the Ultrasphinx Rails search
-plugin.  Search Wrapper provides a Model.search() class method for any
-ActiveRecord::Base models in the application.  The Model.search method will
-simply call the generic Ultrasphinx::Search method, setting the model class to
-be searched to Model, and passing along any provided options to
-Ultrasphinx::Search.
-
-== Installation
-
-Unpack the search_wrapper directory into vendor/rails/ in your rails project.
-
-== Testing
-
-Install the rspec and mocha gems, then cd into the search_wrapper directory.
-Type 'spec spec/' and you should see all specs run successfully. If you have
-autotest from the ZenTest gem installed you can run autotest in that directory.
-
-== Using  Search Wrapper
-
-  Drug.search(:query => 'tylenol').size  =>  20
-
-  ActiveRecord::Base.search(:query => 'dude', :class_names => [ 'Entry', 'AccountProvider']) => [ ... ]
-
-
-== LICENSE 
-
 Copyright (c) 2008 Flawed Logic, OG Consulting, Rick Bradley
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -49,4 +18,3 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
