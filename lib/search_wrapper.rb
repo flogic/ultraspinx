@@ -10,12 +10,17 @@ module SearchWrapper
 
   module ClassMethods
     # provide a simple Model.search() wrapper around the Ultrasphinx 3-step search process
-    def search(args = {})
+    def search(args = {}, &block)
       raise ArgumentError, ":query argument is required" unless args[:query]
       begin
         @search_handle = Ultrasphinx::Search.new({:class_names => self.name}.merge(args))
-        @search_handle.run
-        @search_handle.results
+        if block_given?
+          @search_handle.run(false)
+          return block.call(@search_handle)
+        else
+          @search_handle.run
+          return @search_handle.results
+        end
       rescue Exception => e
         logger.error("*** Ultrasphinx lookup error***:  #{e.message}\n#{e.backtrace.join("\n")}") if self.respond_to?(:logger)
         []

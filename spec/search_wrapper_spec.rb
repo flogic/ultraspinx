@@ -65,6 +65,36 @@ describe SearchWrapper, "when included into a class" do
       @class.search(:query => 'frobnitz', :class_names => ['Foo', 'Bar'])
     end
 
+    describe "use custom result reification when given a block" do
+      it "should take a block and call it" do
+        block_called = mock(:inner)
+        @class.search(:query => 'frobnitz') do |search|
+          block_called.inner
+        end
+      end
+      
+      it "should run search() with false as argument" do
+        @search.expects(:run).with(false)
+        Ultrasphinx::Search.expects(:new).with(has_entry(:query => 'frobnitz')).returns(@search)
+        @class.search(:query => 'frobnitz') do |search|
+        end
+      end
+      
+      it "should invoke the block with the search-object" do
+        block_test = mock('block_test')
+        block_test.expects(:inner).with(@search)
+        @class.search(:query => 'frobnitz') do |inner_search|
+          block_test.inner(inner_search)
+        end
+      end
+      
+      it "should return the result of the block as return value for search" do
+        @class.search(:query => 'frobnitz') do |inner_search|
+          [:inner_result]
+        end.should == [:inner_result]
+      end
+    end
+
     it 'should run the search query' do
       @search.expects(:run)
       @class.search(:query => 'frobnitz')
