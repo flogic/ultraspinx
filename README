@@ -1,5 +1,5 @@
 = Ultraspinx
-<b>Version 0.0.1 (Nov 25, 2007)</b>
+<b>Version 0.0.2 (Aug 11, 2008)</b>
 
 Author::	Rick Bradley (mailto:rick@ogconsultin.gs)
 
@@ -9,6 +9,9 @@ ActiveRecord::Base models in the application.  The Model.search method will
 simply call the generic Ultrasphinx::Search method, setting the model class to
 be searched to Model, and passing along any provided options to
 Ultrasphinx::Search.
+
+If you invoke Model.search() with a block, you can perform a custom fetch
+of objects from the database, for instance adding an :include.
 
 == Installation
 
@@ -26,6 +29,10 @@ autotest from the ZenTest gem installed you can run autotest in that directory.
 
   ActiveRecord::Base.search(:query => 'dude', :class_names => [ 'Entry', 'AccountProvider']) => [ ... ]
 
+  Drug.search(:query => 'tylenol') do |query|
+    result_ids = query.results.collect{ |result| result.last }
+    Drug.find(result_ids, :include => 'group_information')
+  end
 
 == LICENSE 
 
